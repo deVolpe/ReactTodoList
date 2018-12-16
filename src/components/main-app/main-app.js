@@ -13,7 +13,12 @@ export default class RenderPage extends Component {
   maxId = 100;
 
   state = {
-    todoList: [this.createTodoItem("Coffee Drink"), this.createTodoItem("Leader is main human"), this.createTodoItem("Create Awesome app")]
+    todoList: [
+      this.createTodoItem("Coffee Drink"),
+      this.createTodoItem("Leader is main human"),
+      this.createTodoItem("Create Awesome app")
+    ],
+    term: ''
   };
 
   createTodoItem(label) {
@@ -80,24 +85,41 @@ export default class RenderPage extends Component {
     });
   };
 
+  onSearchChange=(term)=>{
+    this.setState({ term });
+  };
+
+  search(items, term ) {
+
+    if (term.length === 0) {
+      return items;
+    }
+
+    return items.filter(item => item.label.indexOf(term) > -1);
+  };
+
   render() {
 
-    const {todoList: todo} = this.state;
+    const {todoList, term} = this.state;
 
-    const doneCount = todo.filter((el) => el.done).length;
+    const doneCount = todoList.filter((el) => el.done).length;
 
-    const todoCount = todo.length - doneCount;
+    const visible = this.search(todoList, term);
+
+    const todoCount = todoList.length - doneCount;
 
     return (
       <div className="todo-app">
         <AppHeader toDo={todoCount} done={doneCount}/>
         <div className="top-panel d-flex">
-          <SearchPanel/>
+          <SearchPanel onSearchChange={this.onSearchChange}/>
           <ItemStatusFilter/>
         </div>
-        <TodoList todoObject={todo} onDeleted={this.onDeleteItem} onToggleDone={this.onToggleDone} onToggleImportant={this.onToggleImportant}/>
+        <TodoList todoList={visible} onDeleted={this.onDeleteItem} onToggleDone={this.onToggleDone} onToggleImportant={this.onToggleImportant}/>
         <ItemAddForm onAddItem={this.addNewTodoItem}/>
       </div>
     );
   };
 }
+
+typeof inspect
