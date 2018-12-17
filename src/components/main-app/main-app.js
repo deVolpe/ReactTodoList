@@ -14,11 +14,11 @@ export default class RenderPage extends Component {
 
   state = {
     todoList: [
-      this.createTodoItem("Coffee Drink"),
-      this.createTodoItem("Leader is main human"),
-      this.createTodoItem("Create Awesome app")
+      this.createTodoItem("Coffee Drink"), this.createTodoItem("Leader is main human"), this.createTodoItem("Create Awesome app")
     ],
-    term: ''
+    term: '',
+    active: false,
+    done: false
   };
 
   createTodoItem(label) {
@@ -85,11 +85,19 @@ export default class RenderPage extends Component {
     });
   };
 
-  onSearchChange=(term)=>{
-    this.setState({ term });
+  onSearchChange = (term) => {
+    this.setState({term});
   };
 
-  search(items, term ) {
+  onFilterDone = (done) => {
+    this.setState({done});
+  };
+
+  onFilterActive = (active) => {
+    this.setState({active});
+  };
+
+  search(items, term) {
 
     if (term.length === 0) {
       return items;
@@ -98,22 +106,35 @@ export default class RenderPage extends Component {
     return items.filter(item => item.label.indexOf(term) > -1);
   };
 
+  filter(list, done, active) {
+
+    if (done) {
+      return list.filter(el => el.done === done);
+    }
+
+    if (active) {
+      return list.filter(el => el.important === active);
+    }
+
+    return list;
+  };
+
   render() {
 
-    const {todoList, term} = this.state;
+    const {todoList, term, done, active} = this.state;
 
     const doneCount = todoList.filter((el) => el.done).length;
-
-    const visible = this.search(todoList, term);
-
     const todoCount = todoList.length - doneCount;
+
+    const list = this.search(todoList, term);
+    const visible = this.filter(list, done, active);
 
     return (
       <div className="todo-app">
         <AppHeader toDo={todoCount} done={doneCount}/>
         <div className="top-panel d-flex">
           <SearchPanel onSearchChange={this.onSearchChange}/>
-          <ItemStatusFilter/>
+          <ItemStatusFilter onFilterDone={this.onFilterDone} onFilterActive={this.onFilterActive}/>
         </div>
         <TodoList todoList={visible} onDeleted={this.onDeleteItem} onToggleDone={this.onToggleDone} onToggleImportant={this.onToggleImportant}/>
         <ItemAddForm onAddItem={this.addNewTodoItem}/>
@@ -121,5 +142,3 @@ export default class RenderPage extends Component {
     );
   };
 }
-
-typeof inspect
