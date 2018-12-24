@@ -29,8 +29,9 @@ export default class ItemStatusFilter extends Component {
 
     const {active, done} = this.state;
 
-    let firstClassName = "btn btn-outline-secondary";
-    let secondClassName = "btn btn-outline-secondary";
+    let firstClassName = "btn btn-outline-secondary",
+        secondClassName = "btn btn-outline-secondary";
+
     if (!active) {
       firstClassName = "btn btn-outline-success";
     }
@@ -39,10 +40,12 @@ export default class ItemStatusFilter extends Component {
       secondClassName = "btn btn-outline-success";
     }
 
-    return (<div className="btn-group">
-      <button className="btn btn-info">All</button>
-      <button className={firstClassName} onClick={this.onFilterActive}>Active</button>
-      <button className={secondClassName} onClick={this.onFilterDone}>Done</button>
-    </div>);
+    return (
+      <div className="btn-group">
+        <button className="btn btn-info">All</button>
+        <button className={firstClassName} onClick={this.onFilterActive}>Active</button>
+        <button className={secondClassName} onClick={this.onFilterDone}>Done</button>
+      </div>
+    );
   };
 }

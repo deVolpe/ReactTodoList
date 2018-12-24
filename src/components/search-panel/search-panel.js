@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 import "./search-panel.css"
-
 
 export default class SearchPanel extends Component {
 
@@ -11,21 +10,17 @@ export default class SearchPanel extends Component {
 
   onSearchChange = (e) => {
     const term = e.target.value;
-    this.setState({ term });
+    this.setState({term});
     this.props.onSearchChange(term);
   };
 
   render() {
 
-    const { term } = this.state;
+    const {term} = this.state;
 
     return (
       <div className="search-input">
-        <input type="text"
-           className="form-control"
-           value={term}
-           placeholder="type of search"
-           onChange={this.onSearchChange}/>
+        <input type="text" className="form-control" value={term} placeholder="type of search" onChange={this.onSearchChange}/>
       </div>
     );
   };
