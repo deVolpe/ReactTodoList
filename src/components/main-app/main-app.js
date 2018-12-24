@@ -33,7 +33,6 @@ export default class MainApp extends Component {
   addNewTodoItem = (text) => {
     const newItem = this.createTodoItem(text);
     this.setState(({todoList}) => {
-
       const newTodoList = [
         ...todoList,
         newItem
@@ -97,6 +96,10 @@ export default class MainApp extends Component {
     this.setState({active});
   };
 
+  onShowAll = () => {
+    this.setState({done:false, active:false});
+  }
+
   search(items, term) {
 
     if (term.length === 0) {
@@ -134,10 +137,10 @@ export default class MainApp extends Component {
         <AppHeader toDo={todoCount} done={doneCount}/>
         <div className="top-panel d-flex">
           <SearchPanel onSearchChange={this.onSearchChange}/>
-          <ItemStatusFilter onFilterDone={this.onFilterDone} onFilterActive={this.onFilterActive}/>
+          <ItemStatusFilter onFilterDone={this.onFilterDone} onFilterActive={this.onFilterActive} onShowAll={this.onShowAll}/>
         </div>
         <TodoList todoList={visible} onDeleted={this.onDeleteItem} onToggleDone={this.onToggleDone} onToggleImportant={this.onToggleImportant}/>
-        <ItemAddForm onAddItem={this.addNewTodoItem}/>
+        <ItemAddForm onAddItem={this.addNewTodoItem} todoList={todoList}/>
       </div>
     );
   };
