@@ -1,3 +1,3 @@
-import RenderPage from "./main-app";
+import MainApp from "./main-app";
 
-export default RenderPage;
+export default MainApp;

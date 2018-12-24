@@ -8,7 +8,7 @@ import ItemAddForm from '../item-add-form';
 
 import "./main-app.css";
 
-export default class RenderPage extends Component {
+export default class MainApp extends Component {
 
   maxId = 100;
 
@@ -103,7 +103,7 @@ export default class RenderPage extends Component {
       return items;
     }
 
-    return items.filter(item => item.label.indexOf(term) > -1);
+    return items.filter(item => item.label.includes(term));
   };
 
   filter(list, done, active) {
