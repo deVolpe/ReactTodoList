@@ -97,7 +97,7 @@ export default class MainApp extends Component {
   };
 
   onShowAll = () => {
-    this.setState({done: false, active: false});
+    this.setState({done:false, active:false});
   }
 
   search(items, term) {
@@ -111,17 +111,19 @@ export default class MainApp extends Component {
 
   filter(list, done, active) {
 
-    let newList = [...list];
-
-    if (done) {
-      newList = list.filter(el => el.done === done);
+    if (done && !active) {
+      return list.filter(el => el.done);
     }
 
-    if (active) {
-      newList = list.filter(el => el.important === active);
+    if (active && !done) {
+      return list.filter(el => el.important);
     }
 
-    return newList;
+    if (active && done) {
+      return list.filter(el=> el.important && el.done);
+    }
+
+    return list;
   };
 
   render() {
@@ -134,14 +136,16 @@ export default class MainApp extends Component {
     const list = this.search(todoList, term);
     const visible = this.filter(list, done, active);
 
-    return (<div className="todo-app">
-      <AppHeader toDo={todoCount} done={doneCount}/>
-      <div className="top-panel d-flex">
-        <SearchPanel onSearchChange={this.onSearchChange}/>
-        <ItemStatusFilter onFilterDone={this.onFilterDone} onFilterActive={this.onFilterActive} onShowAll={this.onShowAll}/>
+    return (
+      <div className="todo-app">
+        <AppHeader toDo={todoCount} done={doneCount}/>
+        <div className="top-panel d-flex">
+          <SearchPanel onSearchChange={this.onSearchChange}/>
+          <ItemStatusFilter onFilterDone={this.onFilterDone} onFilterActive={this.onFilterActive} onShowAll={this.onShowAll}/>
+        </div>
+        <TodoList todoList={visible} onDeleted={this.onDeleteItem} onToggleDone={this.onToggleDone} onToggleImportant={this.onToggleImportant}/>
+        <ItemAddForm onAddItem={this.addNewTodoItem} todoList={todoList}/>
       </div>
-      <TodoList todoList={visible} onDeleted={this.onDeleteItem} onToggleDone={this.onToggleDone} onToggleImportant={this.onToggleImportant}/>
-      <ItemAddForm onAddItem={this.addNewTodoItem} todoList={todoList}/>
-    </div>);
+    );
   };
 }
