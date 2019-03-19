@@ -8,9 +8,9 @@ export default class ItemAddForm extends Component {
     label: ''
   }
 
-  isValidLabel = (list, label) => {
-    const isValid = list.some(el => el.label === label)
-    return isValid;
+  isExistLabel = (list, label) => {
+    const isExist = list.some(el => el.label === label)
+    return isExist;
   };
 
   onLabelChange = (e) => {
@@ -21,7 +21,7 @@ export default class ItemAddForm extends Component {
     e.preventDefault();
     const {label} = this.state;
     if (label !== '') {
-      if (!this.isValidLabel(this.props.todoList, label)) {
+      if (!this.isExistLabel(this.props.todoList, label)) {
         this.props.onAddItem(this.state.label);
       }
     }
@@ -32,7 +32,7 @@ export default class ItemAddForm extends Component {
 
     const {label} = this.state;
     const {todoList} = this.props;
-    const isContain = this.isValidLabel(todoList, label);
+    const isContain = this.isExistLabel(todoList, label);
 
     let style = 'form-control ';
 
